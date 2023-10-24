@@ -45,13 +45,24 @@ class Server:
         return dataset[page_range[0]: page_range[1]]
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
-        '''get_hyper function'''
-        page_range = self.get_page(page, page_size)
-        return {
-            'page_size': page_size if page_size <= len(page_range) else len(page_range),  # nopep8
-            'page': page,
-            'data': page_range,
-            'next_page': (page + 1) if len(self.get_page(page, page_size)) > 0 else None,  # nopep8
-            'prev_page': page - 1 if page > 1 else None,
-            'total_pages': math.ceil(len(self.dataset()) / page_size)
-        }
+        '''
+        get_hyper method
+        '''
+
+        dct = {}
+        data = self.get_page(page, page_size)
+        dct['page_size'] = len(data)
+        dct['page'] = page
+        dct['data'] = data
+        if self.get_page(page + 1, page_size) != []:
+            dct['next_page'] = dct['page'] + 1
+        else:
+            dct['next_page'] = None
+        try:
+            self.get_page(page - 1, page_size)
+        except Exception:
+            dct['prev_page'] = None
+        else:
+            dct['prev_page'] = dct['page'] - 1
+        dct['total_pages'] = math.ceil((len(self.__dataset) - 1) / page_size)
+        return dct
