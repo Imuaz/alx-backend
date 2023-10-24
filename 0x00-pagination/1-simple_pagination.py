@@ -38,15 +38,8 @@ class Server:
         assert isinstance(page, int) and page > 0
         assert isinstance(page_size, int) and page_size > 0
 
-        # Calculate the start and end indexes using the index_range function
-        start_idx, end_idx = index_range(page, page_size)
-
-        # Get the dataset
+        page_range = index_range(page, page_size)
         dataset = self.dataset()
-
-        # Check if the page is out of range
-        if start_idx > len(dataset) or start_idx < 0:
+        if page_size >= len(dataset):
             return []
-
-        # Return the appropriate page of the dataset
-        return dataset[start_idx:end_idx + 1]
+        return dataset[page_range[0]: page_range[1]]
