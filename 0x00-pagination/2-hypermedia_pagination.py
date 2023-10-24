@@ -46,12 +46,13 @@ class Server:
 
     def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
         # Get the page data using get_page
-        page_data = self.get_page(page, page_size)
+        page_data = get_page(page, page_size)
         # Calculate the total number of pages
         total_pages = math.ceil(len(self.dataset()) / page_size)
 
         # Calculate next and previous page number
-        next_page = (page + 1) if len (page_data) > 0 else None
+        next_page = (page + 1) if len(self.get_page(
+            page, page_size)) > 0 else None
         prev_page = (page - 1) if page > 1 else None
         # Create the dictionary
         hyper_dict = {
