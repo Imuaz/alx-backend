@@ -40,7 +40,7 @@ class Server:
 
         page_range = index_range(page, page_size)
         dataset = self.dataset()
-        if page_size >= len(dataset):
+        if page * age_size >= len(dataset):
             return []
         return dataset[page_range[0]: page_range[1]]
 
