@@ -54,7 +54,7 @@ class Server:
         next_page = (page + 1) if len(page_data) > 0 else None
         prev_page = (page - 1) if page > 1 else None
         # Create the dictionary
-        hyper_dict = {
+        return {
             'page_size': page_size if page_size <= len(page_data) else len(page_data),  # nopep8
             'page': page,
             'data': page_data,
@@ -62,5 +62,3 @@ class Server:
             'prev_page': prev_page,
             'total_pages': total_pages
         }
-
-        return dict(hyper_dic)
