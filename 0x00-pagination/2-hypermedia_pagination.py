@@ -44,7 +44,7 @@ class Server:
             return []
         return dataset[page_range[0]: page_range[1]]
 
-    def get_hyper(self, page: int = 1, page_size: int = 10) -> dict:
+    def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict:
         page_range = self.get_page(page, page_size)
         return {
             'page_size': page_size if page_size <= len(page_range) else len(page_range),  # nopep8
