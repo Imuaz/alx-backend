@@ -51,7 +51,7 @@ class Server:
         total_pages = math.ceil(len(self.dataset()) / page_size)
 
         # Calculate next and previous page number
-        next_page = (page + 1) if page < total_pages else None
+        next_page = (page + 1) if len (page_data) > 0 else None
         prev_page = (page - 1) if page > 1 else None
         # Create the dictionary
         hyper_dict = {
