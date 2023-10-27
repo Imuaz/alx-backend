@@ -45,7 +45,8 @@ class Server:
         page_data = []
         next_index = None
 
-        start = index if index and 0 <= index < len(page_items) else 0
+        assert index is None or (0 <= index < len(page_items))
+        start = index if index else 0
         for i, v in page_items.items():
             if i >= start:
                 page_data.append(v)
