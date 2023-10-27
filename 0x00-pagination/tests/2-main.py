@@ -14,4 +14,3 @@ print("---")
 print(server.get_hyper(100, 3))
 print("---")
 print(server.get_hyper(3000, 100))
-
