@@ -35,8 +35,9 @@ def get_user() -> Union[Dict, None]:
 @app.before_request
 def before_request() -> None:
     '''executes before all other functions.'''
-    user = request.args.get("login_as")
-    g.user = get_user()
+    user = get_user()
+    if user:
+        g.user = user
 
 @babel.localeselector
 def get_locale():
