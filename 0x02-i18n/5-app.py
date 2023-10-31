@@ -25,25 +25,18 @@ users = {
 }
 
 
-def get_user(user_id) -> Union[Dict, None]:
+def get_user() -> Union[Dict, None]:
     '''get user by ID or return None'''
-    return users.get(user_id)
-
+    user = request.args.get('login_as')
+    if user:
+        return users.get(int(user))
+    return None
 
 @app.before_request
 def before_request() -> None:
     '''executes before all other functions.'''
-    login_as = request.args.get('login_as')
-    if login_as:
-        user_id = int(login_as)
-        user = get_user(user_id)
-        if user:
-            g.user = user  # Set the user as a global on flask.g
-        else:
-            g.user = None
-    else:
-        g.user = None
-
+    user = request.args.get("login_as")
+    g.user = get_user()
 
 @babel.localeselector
 def get_locale():
