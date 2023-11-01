@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-'''Task 5 Module'''
+'''Task 6 Module'''
 from flask import Flask, render_template, request, g
 from flask_babel import Babel
 from typing import Union, Dict
@@ -44,32 +44,28 @@ def before_request():
 @babel.localeselector
 def get_locale():
     '''determine the best match with languages.'''
-    # 1. Locale from URL parameters
     locale = request.args.get("locale")
     if locale and locale in app.config['LANGUAGES']:
         return locale
 
-    # 2. Locale from user settings (if available)
     user_locale = request.args.get('login_as')
     if user_locale:
         usr_local = users.get(int(user_locale)).get('locale')
         if usr_local in app.config['LANGUAGES']:
             return usr_local
 
-    # 3. Locale from request header
     headers = request.headers.get("locale")
     if headers:
         return headers
     if len(request.accept_languages) > 0:
         return request.accept_languages.best_match(app.config['LANGUAGES'])
-    # 5. Default locale
     else:
         return app.config.BABEL_DEFAULT_LOCALE
 
 
 @app.route('/')
 def index():
-    '''1-index home page'''
+    '''index route'''
     return render_template('6-index.html')
 
 
