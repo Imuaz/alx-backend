@@ -42,25 +42,21 @@ def before_request():
 
 
 @babel.localeselector
-def get_locale() -> str:
-    '''determine the best match with languages.'''
+def get_locale():
+    """select the best match for supported languages"""
     locale = request.args.get("locale")
-    if locale and locale in app.config['LANGUAGES']:
+    if locale in app.config['LANGUAGES']:
+        print(f"locale {locale}")
         return locale
-
-    user_locale = request.args.get('login_as')
-    if user_locale:
-        usr_local = users.get(int(user_locale)).get('locale')
-        if usr_local in app.config['LANGUAGES']:
-            return usr_local
-
-    headers = request.headers.get("locale")
-    if headers:
-        return headers
-    if len(request.accept_languages) > 0:
-        return request.accept_languages.best_match(app.config['LANGUAGES'])
-    else:
-        return app.config.BABEL_DEFAULT_LOCALE
+    user_locale = g.user.get('locale')
+    if user_locale in app.config['LANGUAGES']:
+        print(f"user_locale {user_locale}")
+        return user_locale
+    b_locale = request.accept_languages.best_match(app.config['LANGUAGES'])
+    if b_locale in app.config['LANGUAGES']:
+        print(f"browser_locale {b_locale}")
+        return b_locale
+    return "en"
 
 
 @app.route('/')
