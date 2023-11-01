@@ -68,7 +68,7 @@ def validate_timezone(timezone):
         pytz.timezone(timezone)  # Validate the time zone
         return timezone
     except pytz.exceptions.UnknownTimeZoneError:
-        return 'UTC'  # Default to UTC if the time zone is invalid
+        return app.config['BABEL_DEFAULT_TIMEZONE']
 
 
 @babel.timezoneselector
@@ -87,8 +87,7 @@ def get_timezone():
 @app.route('/')
 def index():
     '''index route'''
-    username = None
-    return render_template('6-index.html', unername=username)
+    return render_template('7-index.html')
 
 
 if __name__ == '__main__':
