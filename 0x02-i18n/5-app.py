@@ -25,19 +25,21 @@ users = {
 }
 
 
-def get_user() -> Union[Dict, None]:
+def get_user():
     '''get user by ID or return None'''
-    user = request.args.get('login_as')
-    if user:
-        return users.get(int(user))
+    user_id = request.args.get('login_as')
+    if user_id:
+        return users.get(int(user_id))
     return None
 
+
 @app.before_request
-def before_request() -> None:
+def before_request():
     '''executes before all other functions.'''
     user = get_user()
     if user:
         g.user = user
+
 
 @babel.localeselector
 def get_locale():
