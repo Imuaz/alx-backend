@@ -71,6 +71,7 @@ def validate_timezone(timezone):
     except pytz.exceptions.UnknownTimeZoneError:
         return app.config['BABEL_DEFAULT_TIMEZONE']
 
+
 @babel.timezoneselector
 def get_timezone():
     '''Gets the timezone'''
@@ -90,8 +91,11 @@ def get_timezone():
 @app.route('/')
 def index():
     '''index route'''
-    current_time = _('current_time_is', current_time=pytz.timezone(get_timezone()).localize(datetime.now()).strftime('%b %d, %Y, %I:%M:%S %p'))
+    current_time = _('current_time_is', current_time=pytz.timezone(
+        get_timezone()).localize(datetime.now()).strftime(
+            '%b %d, %Y, %I:%M:%S %p'))
     return render_template('index.html', current_time=current_time)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
