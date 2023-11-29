@@ -2,24 +2,22 @@ import { createQueue } from 'kue';
 
 const queue = createQueue();
 
+// Arrow function to dynamically obtain user's phone number
+const getUserPhoneNumber = (phoneNumber) => phoneNumber;
+
+// Arrow function to dynamically obtain user's message
+const getUserMessage = (message) => message;
+
 // Function to send a notification
 function sendNotification(phoneNumber, message) {
-  //console.log(`Sending notification to ${phoneNumber}, with message: ${message}`);
-}
-
-function getUserPhoneNumber(phoneNumber) {
-  return phoneNumber;
-}
-
-function getUserMessage(message) {
-  return message;
+  console.log(`Sending notification to ${phoneNumber}, with message: ${message}`);
 }
 
 // Dynamically obtain values for phoneNumber and message
-const userPhoneNumber = getUserPhoneNumber();
-const userMessage = getUserMessage();
+const userPhoneNumber = getUserPhoneNumber('4153518780');
+const userMessage = getUserMessage('This is the code to verify your account');
 
-// Create, save, and process the job with dynamic data
+// Create and save the job with dynamic data
 const notificationJob = queue.create('push_notification_code', {
   phoneNumber: userPhoneNumber,
   message: userMessage,
@@ -27,8 +25,3 @@ const notificationJob = queue.create('push_notification_code', {
 
 notificationJob.on('complete', () => console.log('Notification job completed'));
 notificationJob.on('failed', () => console.error('Notification job failed'));
-
-queue.process('push_notification_code', (job, done) => {
-  sendNotification(job.data.phoneNumber, job.data.message);
-  done();
-});
